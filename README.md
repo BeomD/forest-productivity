@@ -10,7 +10,7 @@ Notion https://tidy-cloth-69e.notion.site/Forest-Focus-318ccd682c81808283dbe1ef5
 
 <img src="images/screenshot.png" alt="Forest Focus App Screenshot" width="300" />
 
-<<<<<<< HEAD
+
 ## 📹 Demo Video
 
 https://github.com/user-attachments/assets/placeholder
