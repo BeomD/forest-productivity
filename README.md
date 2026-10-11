@@ -68,6 +68,11 @@ The Forest screen contains a full analytics dashboard to help you understand you
 - Light Mode & Dark Mode.
 - Clean forest-inspired green aesthetic with a minimal, distraction-free UI.
 
+### 💾 Backup & Restore (Web)
+- Export all sessions, settings and progress to a JSON file at a location you
+  choose (File System Access API on Chromium browsers, otherwise a download).
+- Import a previous backup file to restore your data.
+
 ---
 
 ## 🧠 Concept
