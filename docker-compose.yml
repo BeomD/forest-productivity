@@ -1,0 +1,42 @@
+# Forest Focus — web deployment
+#
+# Deployment layout:
+#   * The repository lives on the host at /opt/Forest
+#   * The image is built from that source inside the container
+#   * The container serves the static site on port 80, published on host 6666
+#   * HTTPS / the public domain is terminated by Nginx Proxy Manager (NPM Plus),
+#     which reverse-proxies to http://<host>:6666
+#
+# Usage (on the host):
+#   cd /opt/Forest
+#   docker compose up -d --build
+
+services:
+  forest-web:
+    build:
+      # Source is read from the host path /opt/Forest.
+      context: /opt/Forest
+      dockerfile: Dockerfile
+    image: forest-web:latest
+    container_name: forest-web
+
+    # Host 6666 -> container 80 (NPM Plus proxies to this).
+    ports:
+      - "6666:80"
+
+    # Host source directory mounted into the container (read-only).
+    volumes:
+      - /opt/Forest:/opt/Forest:ro
+
+    environment:
+      - TZ=Asia/Seoul
+
+    restart: unless-stopped
+
+    # Simple container health check against the nginx endpoint.
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

@@ -164,6 +164,61 @@ Start the Expo server
 ```bash
 npx expo start
 ```
+## 🐳 Web Deployment (Docker)
+
+The app ships as a static web build served by nginx, with the image built
+inside Docker (no Node.js required on the host).
+
+### Layout
+
+| Item | Value |
+| --- | --- |
+| Host source path | `/opt/Forest` |
+| Host port | `6666` |
+| Container port | `80` |
+| Container name | `forest-web` |
+
+### Deploy
+
+```bash
+# 1. Put the project on the host at /opt/Forest
+sudo mkdir -p /opt/Forest
+# (clone or copy the repository into /opt/Forest)
+
+# 2. Build and start
+cd /opt/Forest
+docker compose up -d --build
+
+# 3. Verify
+curl -I http://localhost:6666
+```
+
+The site is then reachable at `http://<host>:6666`. In **Nginx Proxy Manager
+(NPM Plus)** create a proxy host that forwards your domain to
+`http://<host-ip>:6666` and attach the TLS certificate there — HTTPS is
+terminated by NPM Plus, not by this container.
+
+### Updating
+
+After changing the source, rebuild the image:
+
+```bash
+cd /opt/Forest
+docker compose up -d --build
+```
+
+### Notes
+
+- The build lives inside the image; `/opt/Forest` is mounted read-only as the
+  source/build location.
+- Client-side routing is handled by nginx (`try_files` → `*.html`), so deep
+  links and refreshes work on any route.
+- The Solana mobile wallet features only work in a mobile wallet browser;
+  on desktop web the wallet actions are unavailable but the rest of the app
+  works normally.
+
+---
+
 ## 🔮 Future Improvements
 
 - On-chain rewards for completed sessions.

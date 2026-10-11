@@ -1,0 +1,26 @@
+# Dependencies & build output (rebuilt inside the image)
+node_modules
+dist
+web-build
+.expo
+
+# VCS / editor
+.git
+.gitignore
+.vscode
+.idea
+
+# Large media not needed for the web build
+demo.webm
+images
+
+# Native projects (web-only deploy)
+/ios
+/android
+.kotlin
+
+# OS / logs / env
+.DS_Store
+*.log
+.env*.local
+*.tsbuildinfo
