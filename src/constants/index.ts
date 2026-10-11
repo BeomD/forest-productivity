@@ -11,9 +11,3 @@ export {
   TREE_STAGES
 } from "./timer";
 export type { TreeStage } from "./timer";
-
-export {
-  TREASURY_WALLET,
-  REVIVE_COST_SOL,
-  REWARD_AMOUNT_SOL,
-} from "./solana";

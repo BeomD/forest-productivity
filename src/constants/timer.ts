@@ -23,7 +23,6 @@ export const STORAGE_KEYS = {
   SESSIONS: "@forest_sessions",
   SETTINGS: "@forest_settings",
   ACTIVE_SESSION: "@forest_active_session",
-  WALLET_CLUSTER: "@forest_wallet_cluster",
   LEVEL_DATA: "@forest_level_data",
 } as const;
 
@@ -46,8 +45,6 @@ export const COLORS = {
   deadTree: "#795548",
   border: "#E0E0E0",
   borderDark: "#333333",
-  solana: "#9945FF",
-  solanaLight: "#B47AFF",
 } as const;
 
 /** Daily focus goal in minutes */

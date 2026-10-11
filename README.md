@@ -68,10 +68,6 @@ The Forest screen contains a full analytics dashboard to help you understand you
 - Light Mode & Dark Mode.
 - Clean forest-inspired green aesthetic with a minimal, distraction-free UI.
 
-### 👛 Solana Wallet Integration
-- Integrated Solana wallet support built for a Web3-native mobile experience.
-- Foundation for on-chain incentives, focus rewards, and future token mechanics.
-
 ---
 
 ## 🧠 Concept
@@ -89,7 +85,6 @@ Behavioral design meets minimal UX. Over time, your focus sessions create a visu
 
 - **Framework:** React Native, Expo
 - **Graphics/Animations:** React Native SVG, React Native Reanimated
-- **Web3:** Solana Wallet Integration
 - **Language:** JavaScript / TypeScript
 - **Storage:** Async Storage
 
@@ -132,12 +127,6 @@ forest-productivity/
 │   ├── constants/
 │   ├── hooks/
 │   ├── screens/
-│   ├── solana/
-│   │   ├── config.ts
-│   │   ├── connection.ts
-│   │   ├── mobileWallet.ts
-│   │   ├── nft.ts
-│   │   └── transactions.ts
 │   ├── store/
 │   └── utils/
 ├── app.json
@@ -223,19 +212,13 @@ Re-run the build (`docker compose up -d --build`) or, in Portainer, use
 - The build lives inside the image; the source is the repo itself.
 - Client-side routing is handled by nginx (`try_files` → `*.html`), so deep
   links and refreshes work on any route.
-- The Solana mobile wallet features only work in a mobile wallet browser;
-  on desktop web the wallet actions are unavailable but the rest of the app
-  works normally.
 
 ---
 
 ## 🔮 Future Improvements
 
-- On-chain rewards for completed sessions.
-- NFT-based forest trees.
 - Streak multipliers.
 - Community focus rooms.
-- Tokenized accountability system.
 
 📜 License
 This project is licensed under the MIT License.

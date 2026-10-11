@@ -1,14 +1,12 @@
 import * as Haptics from "expo-haptics";
 import * as Notifications from "expo-notifications";
 import { useCallback, useEffect, useRef } from "react";
-import { Alert, AppState, type AppStateStatus } from "react-native";
+import { AppState, type AppStateStatus } from "react-native";
 import { GRACE_PERIOD_MS, TIMER_INTERVAL_MS } from "../constants";
-import { mintTreeNFT } from "../solana/nft";
 import { useLevelStore } from "../store/levelStore";
 import { useSessionStore } from "../store/sessionStore";
 import { useSettingsStore } from "../store/settingsStore";
 import { useTimerStore } from "../store/timerStore";
-import { useWalletStore } from "../store/walletStore";
 import { generateId, getProgress, getTreeStage } from "../utils/helpers";
 import type { FocusSession } from "../utils/types";
 
@@ -21,7 +19,6 @@ export function useFocusTimer() {
     durationMinutes,
     remainingSeconds,
     status,
-    tick,
     syncRemainingSeconds,
     completeTimer,
     failTimer,
@@ -34,13 +31,6 @@ export function useFocusTimer() {
   const strictMode = useSettingsStore((s) => s.strictMode);
   const notificationsEnabled = useSettingsStore((s) => s.notificationsEnabled);
   const addPoints = useLevelStore((s) => s.addPoints);
-
-  const walletPublicKey = useWalletStore((s) => s.publicKey);
-  const walletCluster = useWalletStore((s) => s.cluster);
-  const walletAuthToken = useWalletStore((s) => s.authToken);
-  const walletUriBase = useWalletStore((s) => s.walletUriBase);
-  const setAuthorizationState = useWalletStore((s) => s.setAuthorizationState);
-  const setLastTxSignature = useWalletStore((s) => s.setLastTxSignature);
 
   const totalSeconds = durationMinutes * 60;
   const progress = getProgress(remainingSeconds, totalSeconds);
@@ -78,45 +68,6 @@ export function useFocusTimer() {
     [durationMinutes, progress, addSession, clearPersistedSession],
   );
 
-  /**
-   * Attempt to mint a Tree NFT after focus session completes.
-   * This is fire-and-forget — failure does not block the session completion.
-   */
-  const tryMintTreeNFT = useCallback(async () => {
-    if (!walletPublicKey) {
-      console.log("[tryMintTreeNFT] No wallet connected, skipping NFT mint.");
-      return;
-    }
-
-    try {
-      const signature = await mintTreeNFT(
-        walletCluster,
-        walletAuthToken,
-        walletUriBase,
-        (authUpdate) => {
-          setAuthorizationState(authUpdate);
-        },
-      );
-
-      if (signature) {
-        setLastTxSignature(signature);
-        Alert.alert(
-          "🌳 Tree NFT Minted!",
-          "Your focus session tree has been minted as an NFT on Solana Devnet.",
-        );
-      }
-    } catch (error) {
-      console.warn("[tryMintTreeNFT] NFT mint failed (non-blocking):", error);
-    }
-  }, [
-    walletPublicKey,
-    walletCluster,
-    walletAuthToken,
-    walletUriBase,
-    setAuthorizationState,
-    setLastTxSignature,
-  ]);
-
   const handleComplete = useCallback(async () => {
     clearInterval_();
     completeTimer();
@@ -143,9 +94,6 @@ export function useFocusTimer() {
 
     await saveSession("completed");
     await addPoints(durationMinutes);
-
-    // Attempt NFT mint (non-blocking)
-    tryMintTreeNFT();
   }, [
     clearInterval_,
     completeTimer,
@@ -153,7 +101,6 @@ export function useFocusTimer() {
     durationMinutes,
     saveSession,
     addPoints,
-    tryMintTreeNFT,
   ]);
 
   const handleFail = useCallback(async () => {
