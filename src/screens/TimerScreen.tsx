@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DurationSelector } from "../components/DurationSelector";
-import { ReviveTreeButton } from "../components/ReviveTreeButton";
 import { TimerControls } from "../components/TimerControls";
 import { TreeGrowthAnimation } from "../components/TreeGrowthAnimation";
 import { ProgressRing } from "../components/timer/ProgressRing";
@@ -27,7 +26,6 @@ export default function TimerScreen() {
     startTimer,
     pauseTimer,
     resumeTimer,
-    tree,
   } = useTimerStore();
 
   const darkMode = useSettingsStore((s) => s.darkMode);
@@ -66,9 +64,6 @@ export default function TimerScreen() {
   }, [handleFail]);
 
   const isActive = status === "running" || status === "paused";
-
-  // Show the revive button only while the session has failed and the tree is dead
-  const showReviveButton = status === "failed" && tree.status === "dead";
 
   const statusMessage = (() => {
     switch (status) {
@@ -146,9 +141,6 @@ export default function TimerScreen() {
           onCancel={handleCancel}
           darkMode={darkMode}
         />
-
-        {/* ── Revive button — visible only when the tree is dead ── */}
-        {showReviveButton && <ReviveTreeButton darkMode={darkMode} />}
       </View>
     </SafeAreaView>
   );
