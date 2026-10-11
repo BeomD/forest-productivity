@@ -68,15 +68,15 @@ export default function TimerScreen() {
   const statusMessage = (() => {
     switch (status) {
       case "idle":
-        return "Ready to focus?";
+        return "집중할 준비 되셨나요?";
       case "running":
-        return "Stay focused... 🌱";
+        return "집중 중... 🌱";
       case "paused":
-        return "Paused";
+        return "일시정지";
       case "completed":
-        return "Great job! 🌳";
+        return "잘했어요! 🌳";
       case "failed":
-        return "Tree died 🥀";
+        return "나무가 죽었어요 🥀";
       default:
         return "";
     }
