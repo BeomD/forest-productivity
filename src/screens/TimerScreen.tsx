@@ -50,12 +50,12 @@ export default function TimerScreen() {
 
   const handleCancel = useCallback(() => {
     Alert.alert(
-      "Give Up?",
-      "Your tree will die if you give up now. Are you sure?",
+      "포기할까요?",
+      "지금 포기하면 나무가 죽습니다. 정말 포기할까요?",
       [
-        { text: "Keep Going", style: "cancel" },
+        { text: "계속하기", style: "cancel" },
         {
-          text: "Give Up",
+          text: "포기",
           style: "destructive",
           onPress: () => handleFail(),
         },

@@ -38,11 +38,11 @@ const TimerControls = memo(function TimerControls({
           onPress={onPause}
         >
           <Text style={[styles.secondaryButtonText, darkMode && styles.secondaryButtonTextDark]}>
-            Pause
+            일시정지
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-          <Text style={styles.cancelButtonText}>Give Up</Text>
+          <Text style={styles.cancelButtonText}>포기</Text>
         </TouchableOpacity>
       </View>
     );
@@ -52,10 +52,10 @@ const TimerControls = memo(function TimerControls({
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.startButton} onPress={onResume}>
-          <Text style={styles.startButtonText}>Resume</Text>
+          <Text style={styles.startButtonText}>계속하기</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-          <Text style={styles.cancelButtonText}>Give Up</Text>
+          <Text style={styles.cancelButtonText}>포기</Text>
         </TouchableOpacity>
       </View>
     );
@@ -65,7 +65,7 @@ const TimerControls = memo(function TimerControls({
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.startButton} onPress={onStart}>
-          <Text style={styles.startButtonText}>Plant Again 🌱</Text>
+          <Text style={styles.startButtonText}>다시 시작 🌱</Text>
         </TouchableOpacity>
       </View>
     );
@@ -75,7 +75,7 @@ const TimerControls = memo(function TimerControls({
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.startButton} onPress={onStart}>
-          <Text style={styles.startButtonText}>Try Again 🌱</Text>
+          <Text style={styles.startButtonText}>다시 시작 🌱</Text>
         </TouchableOpacity>
       </View>
     );
