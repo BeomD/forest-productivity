@@ -97,7 +97,7 @@ export default function TimerScreen() {
     >
       <View style={styles.content}>
         <Text style={[styles.title, darkMode && styles.titleDark]}>
-          Forest Focus
+          집중
         </Text>
 
         <DurationSelector

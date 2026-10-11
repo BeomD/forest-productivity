@@ -24,7 +24,7 @@ const TimerControls = memo(function TimerControls({
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.startButton} onPress={onStart}>
-          <Text style={styles.startButtonText}>Plant Tree 🌱</Text>
+          <Text style={styles.startButtonText}>시작 🌱</Text>
         </TouchableOpacity>
       </View>
     );

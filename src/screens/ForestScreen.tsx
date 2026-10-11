@@ -41,7 +41,7 @@ export default function ForestScreen() {
     <SafeAreaView style={[styles.container, darkMode && styles.containerDark]} edges={['top']}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, darkMode && styles.titleDark]}>My Forest</Text>
+        <Text style={[styles.title, darkMode && styles.titleDark]}>BAMJIN</Text>
         {sessions.length > 0 && (
           <TouchableOpacity onPress={handleClear}>
             <Text style={styles.clearText}>Clear</Text>
