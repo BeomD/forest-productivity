@@ -178,6 +178,15 @@ inside Docker (no Node.js required on the host).
 | Container name | `forest-web` |
 | Compose file | `docker-compose.yml` |
 
+### Prerequisite — source at `/opt/Forest`
+
+The build context is fixed to the host path **`/opt/Forest`**, so the source
+must exist there on the Docker host (whichever host builds):
+
+```bash
+sudo git clone https://github.com/BeomD/forest-productivity /opt/Forest
+```
+
 ### Option A — Portainer (Git repository stack)
 
 1. **Stacks → Add stack → Build method: Repository**
@@ -187,9 +196,10 @@ inside Docker (no Node.js required on the host).
 5. (Private repo only) add your credentials / access token
 6. **Deploy the stack**
 
-Portainer clones the repo and builds the image from it (`build.context: .`).
-Enable **"Re-pull image" / "Re-deploy"** or use *Pull and redeploy* to apply
-source updates.
+Portainer clones the repo to read the compose file, but the image is still
+built from **`/opt/Forest`** on the Docker host, so that path must exist
+(see prerequisite). Use **Pull and redeploy** to apply source updates
+(remember to `git -C /opt/Forest pull` first).
 
 > Builds require a **standalone Docker** environment. On Docker **Swarm**,
 > `build:` is not supported — build the image elsewhere and push it to a
@@ -198,11 +208,10 @@ source updates.
 ### Option B — Local host
 
 ```bash
-# 1. Put the project on the host (e.g. /opt/Forest)
-cd /opt/Forest
+# 1. Source at /opt/Forest (see prerequisite)
 
 # 2. Build and start
-docker compose up -d --build
+docker compose -f /opt/Forest/docker-compose.yml up -d --build
 
 # 3. Verify
 curl -I http://localhost:6666
@@ -220,7 +229,7 @@ Re-run the build (`docker compose up -d --build`) or, in Portainer, use
 
 ### Notes
 
-- The build lives inside the image; the source is the repo itself.
+- The build lives inside the image; the build context is fixed to `/opt/Forest`.
 - Client-side routing is handled by nginx (`try_files` → `*.html`), so deep
   links and refreshes work on any route.
 - The Solana mobile wallet features only work in a mobile wallet browser;

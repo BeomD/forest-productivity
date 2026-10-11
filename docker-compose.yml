@@ -1,12 +1,19 @@
 # Forest Focus — web deployment (Docker Compose)
 #
-# Works in two ways:
-#   1. Portainer → Stacks → Git repository
-#        * Repository:    https://github.com/BeomD/forest-productivity
-#        * Compose path:  docker-compose.yml
-#      Portainer clones the repo and builds the image from it.
-#   2. Local host at /opt/Forest
-#        cd /opt/Forest && docker compose up -d --build
+# The build context is ALWAYS the host path /opt/Forest, regardless of which
+# host / orchestrator (Portainer, plain Docker, CI, ...) performs the build.
+#
+#   * Put the source on every Docker host at /opt/Forest
+#       sudo git clone https://github.com/BeomD/forest-productivity /opt/Forest
+#   * Then build & run from anywhere:
+#       docker compose -f /opt/Forest/docker-compose.yml up -d --build
+#
+# Portainer → Stacks → Add stack → Repository:
+#   Repository URL:    https://github.com/BeomD/forest-productivity
+#   Reference:         refs/heads/main
+#   Compose path:      docker-compose.yml
+#   (Portainer clones the repo for the compose file, but the image is still
+#    built from /opt/Forest on the Docker host, so /opt/Forest must exist.)
 #
 # The container serves the static site on port 80, published on host 6666.
 # HTTPS / the public domain is terminated by Nginx Proxy Manager (NPM Plus),
@@ -15,8 +22,8 @@
 services:
   forest-web:
     build:
-      # Relative to the compose file / repo root (Portainer clones the repo here).
-      context: .
+      # Fixed host path — the source must live at /opt/Forest on the Docker host.
+      context: /opt/Forest
       dockerfile: Dockerfile
     image: forest-web:latest
     container_name: forest-web
@@ -24,6 +31,10 @@ services:
     # Host 6666 -> container 80 (NPM Plus proxies to this).
     ports:
       - "6666:80"
+
+    # Host source directory mounted into the container (read-only).
+    volumes:
+      - /opt/Forest:/opt/Forest:ro
 
     environment:
       - TZ=Asia/Seoul
