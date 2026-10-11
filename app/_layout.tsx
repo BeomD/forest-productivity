@@ -32,14 +32,6 @@ export default function RootLayout() {
     <>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(drawer)" />
-        <Stack.Screen
-          name="send"
-          options={{
-            presentation: 'modal',
-            headerShown: false,
-            animation: 'slide_from_bottom',
-          }}
-        />
       </Stack>
       <StatusBar style={darkMode ? 'light' : 'dark'} />
     </>

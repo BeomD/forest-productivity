@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Settings, Timer, Trees, Wallet } from 'lucide-react-native';
+import { Settings, Timer, Trees } from 'lucide-react-native';
 import React from 'react';
 import { COLORS } from '../../../src/constants';
 import { useSettingsStore } from '../../../src/store/settingsStore';
@@ -31,13 +31,6 @@ export default function TabLayout() {
         options={{
           title: 'Forest',
           tabBarIcon: ({ color, size }) => <Trees color={color} size={size} />,
-        }}
-      />
-      <Tabs.Screen
-        name="wallet"
-        options={{
-          title: 'Wallet',
-          tabBarIcon: ({ color, size }) => <Wallet color={color} size={size} />,
         }}
       />
       <Tabs.Screen
