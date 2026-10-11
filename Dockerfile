@@ -11,8 +11,9 @@ FROM node:22-bookworm-slim AS builder
 WORKDIR /app
 
 # Install dependencies first so this layer is cached between source edits.
+# Falls back to `npm install` if the lock file is out of sync with package.json.
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund || npm install --no-audit --no-fund
 
 # Copy the rest of the project and produce the static export in /app/dist.
 COPY . .

@@ -173,20 +173,35 @@ inside Docker (no Node.js required on the host).
 
 | Item | Value |
 | --- | --- |
-| Host source path | `/opt/Forest` |
 | Host port | `6666` |
 | Container port | `80` |
 | Container name | `forest-web` |
+| Compose file | `docker-compose.yml` |
 
-### Deploy
+### Option A — Portainer (Git repository stack)
+
+1. **Stacks → Add stack → Build method: Repository**
+2. Repository URL: `https://github.com/BeomD/forest-productivity`
+3. Repository reference: `refs/heads/main`
+4. Compose path: `docker-compose.yml`
+5. (Private repo only) add your credentials / access token
+6. **Deploy the stack**
+
+Portainer clones the repo and builds the image from it (`build.context: .`).
+Enable **"Re-pull image" / "Re-deploy"** or use *Pull and redeploy* to apply
+source updates.
+
+> Builds require a **standalone Docker** environment. On Docker **Swarm**,
+> `build:` is not supported — build the image elsewhere and push it to a
+> registry, then replace `build:` with `image:`.
+
+### Option B — Local host
 
 ```bash
-# 1. Put the project on the host at /opt/Forest
-sudo mkdir -p /opt/Forest
-# (clone or copy the repository into /opt/Forest)
+# 1. Put the project on the host (e.g. /opt/Forest)
+cd /opt/Forest
 
 # 2. Build and start
-cd /opt/Forest
 docker compose up -d --build
 
 # 3. Verify
@@ -200,17 +215,12 @@ terminated by NPM Plus, not by this container.
 
 ### Updating
 
-After changing the source, rebuild the image:
-
-```bash
-cd /opt/Forest
-docker compose up -d --build
-```
+Re-run the build (`docker compose up -d --build`) or, in Portainer, use
+**Pull and redeploy** on the stack.
 
 ### Notes
 
-- The build lives inside the image; `/opt/Forest` is mounted read-only as the
-  source/build location.
+- The build lives inside the image; the source is the repo itself.
 - Client-side routing is handled by nginx (`try_files` → `*.html`), so deep
   links and refreshes work on any route.
 - The Solana mobile wallet features only work in a mobile wallet browser;
